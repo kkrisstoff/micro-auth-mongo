@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include parts/head.ejs %>
+</head>
+<body>
+<div class="container">
+
+    <form id="logIn" name="login" class="login-form" method="POST" action="/login">
+        <div class="row">
+            <h3>Log In For Use Admin Dashboard</h3>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <p><label for="name">Name</label></p>
+                <input id="name" type="text" name="username" placeholder="Your Name"/>
+            </div>
+            <div class="col-6">
+                <p><label for="pass">Password</label></p>
+                <input id="pass" type="password" name="password" placeholder="Admin Password"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="error" style="display: none">
+                <span class="error-msg"></span>
+            </div>
+        </div>
+        <div class="row">
+            <input type="submit" value="Log In"/>
+            <div><a href="/signup">registration</a></div>
+        </div>
+
+    </form>
+
+</div>
+<script>
+    (function () {
+
+        $(document.forms['login']).on('submit', function() {
+            var form = $(this);
+            showError(null);
+            if(!isFormValid(form)){
+                showError("Invalid Form Data");
+                return false;
+            }
+            //$(":submit", form).button("loading");
+
+            $.ajax({
+                url: "/login",
+                data: form.serialize(),
+                method: "POST",
+                complete: function() {
+                    //$(":submit", form).button("reset");
+                },
+                statusCode: {
+                    200: function() {
+                        window.location.href = "/dashboard";
+                    },
+                    403: function(jqXHR) {
+                        console.log(jqXHR);
+                        var error = jqXHR.responseText;
+                        showError(error);
+                    }
+                }
+            });
+            return false;
+        });
+
+        function showError(msg) {
+            var errorHolder = $('.error');
+            if (!msg){
+                errorHolder.hide();
+            } else {
+                errorHolder.show();
+                errorHolder.find(".error-msg").text(msg || "");
+            }
+        }
+
+        function isFormValid(form) {
+            var inputs = form.find("input"),
+                    i, l = inputs.length;
+            for (i = 0; i < l; i++){
+                if (!inputs[i].value.length) return false;
+            }
+            return true;
+        }
+    })();
+
+
+</script>
+</body>
+</html>

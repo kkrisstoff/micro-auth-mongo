@@ -1,0 +1,24 @@
+{
+    "port": 3000,
+    "protocol": "https:",
+    "uri": "",
+    "host": "",
+    "db": {
+        "path": "mongodb://localhost/auto-tests"
+    },
+    "session": {
+        "secret": "Keep your secrets"
+    },
+    "parse": {
+        "APP_ID": "R4YBg6FcB7LzWBNkvT75JU1OY9Yl2sbR8BWdcSVq",
+        "API_KEY": "NW9iKJoQifTXYfHUxmv5RiF72btDtLNqMxIVmECJ"
+    },
+    "cookie": {
+        "maxAge": 1200000
+    },
+    "log": {
+        "maxSize": 5242880,
+        "maxFiles": 10,
+        "consoleLevel": 30
+    }
+}

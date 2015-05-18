@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include parts/head.ejs %>
+</head>
+<body>
+<div class="container">
+    <% include elements/menu.ejs %>
+    <section class="tests-table">
+        <% if (results && results.length){ %>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Test ID</th>
+                    <th>Service</th>
+                    <th>Last Started</th>
+
+                    <th>Start/Pause</th>
+                    <th>Stop</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% var i, res; %>
+            <% for (i=0; results[i]; i++){ %>
+            <% res = results[i] %>
+                <tr>
+                    <td><%= i %></td>
+                    <td><%= res.id %></td>
+                    <td><%= res.service %></td>
+                    <td><%= res.time %></td>
+
+                    <td><%= res.state %></td>
+                    <td><%= !!res.state %></td>
+                </tr>
+            <% }; %>
+            </tbody>
+        </table>
+        <% }; %>
+    </section>
+</div>
+</body>
+</html>

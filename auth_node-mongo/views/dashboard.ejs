@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include parts/head.ejs %>
+</head>
+<body>
+<div class="container">
+    <% include elements/menu.ejs %>
+    <section class="board-form">
+        <div class="row">
+            <select name="services" id="services">
+                <option data-type="myHealth">MyHealth</option>
+                <option data-type="healthPlaNet">HealthPlaNET</option>
+            </select>
+        </div>
+        <div class="row">
+            <form id="form" method="post" action="/">
+                <input type="text" name="name" placeholder="Name"/>
+                <input type="text" name="password" placeholder="Password"/>
+                <input type="text" name="run" placeholder="Run" value="1" style="display: none;"/>
+            </form>
+        </div>
+    </section>
+
+    <section class="row error" style="display: none">
+        <p class="error-msg"></p>
+    </section>
+
+    <section class="row controllers">
+        <button data-action="startNewTest">Start</button>
+        <button data-action="testUser">Test User</button>
+    </section>
+
+</div>
+<script type="text/javascript">
+    (function () {
+        var btn = $(".controllers button"),
+            $form = $("#form"),
+            $services = $("#services"),
+            $errorHolder = $(".error");
+        btn.on("click", function (e) {
+            onSubmitAction(e);
+        });
+        $form.find("input").focus(function () {
+            showErrorMsg(false);
+        });
+
+        function onSubmitAction(e) {
+            e.preventDefault();
+            var $target = $(e.currentTarget),
+                action = $target.data("action"),
+                service = $services.find("option:selected").data("type");
+
+            if (!action || !action.length || action == "/"){
+                showErrorMsg(true, "Action " + action + " is wrong.");
+                console.log("action " + action + " is wrong.");
+                return false;
+            }
+
+            if(!isFormValid($form)){
+                showErrorMsg(true, "Add Name And Password!");
+                return false;
+            }
+
+            $form[0].action = "/" + action + "/" + service;
+            $form.submit();
+
+            return false;
+        }
+
+        function isFormValid(form) {
+            var name = form.find('input[name="name"]').val(),
+                pass = form.find('input[name="password"]').val();
+            return ($.trim(name).length && $.trim(pass).length) ? true : false
+        }
+
+        function showErrorMsg(fl, msg) {
+            var msgHolder = $errorHolder.find(".error-msg"),
+                    msgText;
+            if (!fl){
+                msgHolder.text("");
+                $errorHolder.hide();
+            } else {
+                msgText = msg || "Form Error";
+                msgHolder.text(msgText);
+                $errorHolder.show();
+            }
+        }
+    })();
+</script>
+</body>
+</html>

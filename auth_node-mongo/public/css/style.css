@@ -1,0 +1,40 @@
+
+select{
+    height: 30px;
+    line-height: 30px;
+}
+
+.login-form{
+    background-color: #0067ab;
+    color: #eee;
+    width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.login-form input[type="text"],
+.login-form input[type="password"]{
+    width: 100%;
+}
+
+.login-form input[type="submit"]{
+    margin: 10px 20px;
+}
+
+.login-form h3{
+    text-align: center;
+}
+
+.board-form{
+    padding: 20px 0;
+}
+
+.board-form input{
+    background-color: #fff;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.user-info{
+    float: right;
+    font-weight: bold;
+}
