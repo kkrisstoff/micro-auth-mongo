@@ -4,22 +4,30 @@ select{
     line-height: 30px;
 }
 
-.login-form{
+.login-form,
+.signup-form{
     background-color: #0067ab;
     color: #eee;
     width: 380px;
     margin-left: auto;
     margin-right: auto;
+    overflow: hidden;
 }
 .login-form input[type="text"],
-.login-form input[type="password"]{
+.login-form input[type="password"],
+.signup-form input[type="text"],
+.signup-form input[type="password"]{
     width: 100%;
 }
 
-.login-form input[type="submit"]{
+.login-form input[type="submit"],
+.login-form .button,
+.signup-form input[type="submit"],
+.signup-form .button{
     margin: 10px 20px;
 }
 
+.signup-form,
 .login-form h3{
     text-align: center;
 }

@@ -4,7 +4,7 @@ module.exports = function (app) {
 
     //Users for testing
     app.get('/allUsers', function (req, res, next){
-        var User = require('models/db/user').User;
+        var User = require('models/user').User;
         User.find({}, function (err, users) {
             if (err) return next(err);
             res.json(users);
@@ -19,6 +19,10 @@ module.exports = function (app) {
     /* Login page */
     app.get('/login', require('./login').get);
     app.post('/login', require('./login').post);
+
+    /* Sign Up page */
+    app.get('/signup', require('./signup').get);
+    app.post('/signup', require('./signup').post);
 
     /* Log Out */
     app.get('/logout', require('./logout').post);

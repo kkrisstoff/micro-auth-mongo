@@ -7,12 +7,12 @@ var cookieParser = require('cookie-parser');
 var config = require('./config');
 var errorHandler = require('errorhandler');
 var favicon = require('serve-favicon');
+var logger = require('morgan');//connect logger middleware
 
 var log = require('./lib/log')(module);
 
 //DB connection
 var mongoose = require('lib/mongoose');
-
 
 var HttpError = require('./error').HttpError;
 
@@ -31,7 +31,6 @@ if (app.get('env') == 'development'){
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.use(express.static(path.join(__dirname, 'public')));
 
 //Cookie
 var session = require('express-session');
@@ -50,13 +49,10 @@ app.use(session({
 
 app.use(require('middleware/resExtensions'));
 app.use(require('middleware/resLocals'));
-app.use(require('middleware/loadUser'));
 
 //Routes
 require('./routes')(app);
-
-//API
-app.use(require('./api/api'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 //Error Handler
 app.use(function (err, req, res, next) {
@@ -69,7 +65,7 @@ app.use(function (err, req, res, next) {
         res.sendHttpError(err);
     } else {
         if (app.get('env') == 'development') {
-            app.use(errorHandler())
+            app.use(errorHandler());
         } else {
             log.error(err);
             err = new HttpError(500);

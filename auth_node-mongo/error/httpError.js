@@ -13,6 +13,6 @@ function HttpError(status, message) {
 }
 
 util.inherits(HttpError, Error);
-module.exports = HttpError;
 
+module.exports = HttpError;
 HttpError.prototype.name = 'HttpError';

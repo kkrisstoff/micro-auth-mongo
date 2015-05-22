@@ -41,7 +41,7 @@ select {
 }
 
 button,
-a.btn,
+.button,
 input[type="submit"]{
     display: inline-block;
     color: #333;
@@ -58,10 +58,14 @@ input[type="submit"]{
     cursor: pointer;
 }
 button.blue,
-a.btn.blue,
+.button.blue,
 input[type="submit"].blue{
     background-color: #0067ab;
     color: #eee;
+}
+
+.button a{
+    text-decoration: none;
 }
 
 .nav{

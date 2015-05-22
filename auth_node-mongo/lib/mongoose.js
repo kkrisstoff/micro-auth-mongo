@@ -6,7 +6,7 @@ var mongoose = require('mongoose'),
     log = require('lib/log')(module),
     config = require('./../config');
 
-mongoose.connect(config.get('db'));
+mongoose.connect(config.get('db:path'));
 if (config.get('NODE_ENV') === 'development') {
     mongoose.set('debug', true);
 }

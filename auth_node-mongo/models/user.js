@@ -9,6 +9,11 @@ var schema = new Schema({
         unique: true,
         required: true
     },
+    mail: {
+        type: String,
+        unique: false,
+        required: false
+    },
     hashedPassword: {
         type: String,
         required: true

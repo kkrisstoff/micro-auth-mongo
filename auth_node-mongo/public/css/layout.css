@@ -12,6 +12,7 @@ body {
     margin-right: auto;
     margin-left: auto;
     background-color: #eee;
+    overflow: hidden;
 }
 .container:after{
     clear: both;

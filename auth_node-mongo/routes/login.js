@@ -1,4 +1,4 @@
-var User = require('models/db/user').User;
+var User = require('models/user').User;
 var async = require('async');
 
 exports.get = function (req, res) {
