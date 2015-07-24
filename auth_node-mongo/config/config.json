@@ -3,14 +3,10 @@
     "uri": "",
     "host": "",
     "db": {
-        "path": "mongodb://localhost/auto-tests"
+        "path": "mongodb://localhost/auth_node"
     },
     "session": {
         "secret": "Keep your secrets"
-    },
-    "parse": {
-        "APP_ID": "R4YBg6FcB7LzWBNkvT75JU1OY9Yl2sbR8BWdcSVq",
-        "API_KEY": "NW9iKJoQifTXYfHUxmv5RiF72btDtLNqMxIVmECJ"
     },
     "cookie": {
         "maxAge": 1200000

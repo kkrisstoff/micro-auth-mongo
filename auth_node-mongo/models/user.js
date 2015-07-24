@@ -10,9 +10,7 @@ var schema = new Schema({
         required: true
     },
     mail: {
-        type: String,
-        unique: false,
-        required: false
+        type: String
     },
     hashedPassword: {
         type: String,
