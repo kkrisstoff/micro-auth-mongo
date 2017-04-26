@@ -7,13 +7,5 @@
     },
     "session": {
         "secret": "Keep your secrets"
-    },
-    "cookie": {
-        "maxAge": 1200000
-    },
-    "log": {
-        "maxSize": 5242880,
-        "maxFiles": 10,
-        "consoleLevel": 30
     }
 }
