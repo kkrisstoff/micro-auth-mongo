@@ -1,21 +1,18 @@
 import Koa from "koa";
 import config from "./config";
+import getLogger from "./lib/log";
+import setRoutes from "./routes";
+import error from "./error";
 
-// var log = require("./lib/log")(module);
-const log = args => console.log(">>>", args);
+const logger = getLogger(module);
+const log = logger.debug;
+const lerr = logger.error;
+const HttpError = error.HttpError;
 
 // DB connection
 import mongoose from "./lib/mongoose";
 
-// var HttpError = require("./error").HttpError;
-
 const app = new Koa();
-
-// app.set('views', __dirname + '/views');
-
-//connect middleware
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({extended: false}));
 
 //Cookie
 // var session = require('express-session');
@@ -37,28 +34,28 @@ const app = new Koa();
 // app.use(require("middleware/resExtensions"));
 // app.use(require("middleware/resLocals"));
 
-//Routes
-// require("./routes")(app);
-// app.use(express.static(path.join(__dirname, "public")));
+// Routes
+setRoutes(app);
 
 //Error Handler
 app.use(function(err, req, res, next) {
-  log.error("#server error: " + err.status + " " + err.message);
-  if (typeof err == "number") {
-    err = new HttpError(err);
-  }
+  lerr("#server error: " + err.status + " " + err.message);
 
-  if (err instanceof HttpError) {
-    res.sendHttpError(err);
-  } else {
-    if (app.get("env") == "development") {
-      app.use(errorHandler());
-    } else {
-      log.error(err);
-      err = new HttpError(500);
-      res.sendHttpError(err);
-    }
-  }
+  // if (typeof err == "number") {
+  //   err = new HttpError(err);
+  // }
+
+  // if (err instanceof HttpError) {
+  //   res.sendHttpError(err);
+  // } else {
+  //   if (app.get("env") == "development") {
+  //     app.use(errorHandler());
+  //   } else {
+  //     lerr(err);
+  //     err = new HttpError(500);
+  //     res.sendHttpError(err);
+  //   }
+  // }
 });
 
 const port = config.port;

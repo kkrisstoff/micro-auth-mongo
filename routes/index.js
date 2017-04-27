@@ -1,37 +1,43 @@
-var checkAccess = require('middleware/checkAccess');
+import Router from "koa-router";
+import koaBody from "koa-json-body";
+import getAllUsersController from "../controllers/getAllUsers";
+import createNewUserController from "../controllers/createNewUser";
 
-module.exports = function (app) {
+var checkAccess = require("../middleware/checkAccess");
+const router = Router();
 
-    //Users for testing
-    app.get('/allUsers', function (req, res, next){
-        var User = require('models/user').User;
-        User.find({}, function (err, users) {
-            if (err) return next(err);
-            res.json(users);
-        })
-    });
+module.exports = app => {
+  app.use(koaBody({ fallback: true }));
 
-    /* Home page */
-    app.get('/', function(req, res) {
-        res.redirect('/dashboard');
-    });
+  // Get all users
+  router.get("/all-users", getAllUsersController);
 
-    /* Login page */
-    app.get('/login', require('./login').get);
-    app.post('/login', require('./login').post);
+  // Create User
+  router.post("/new-user", createNewUserController);
 
-    /* Sign Up page */
-    app.get('/signup', require('./signup').get);
-    app.post('/signup', require('./signup').post);
+  // /* Home page */
+  // router.get("/", function(req, res) {
+  //   res.redirect("/home");
+  // });
 
-    /* Log Out */
-    app.get('/logout', require('./logout').post);
+  // /* Login page */
+  // router.get("/login", require("./login").get);
+  // router.post("/login", require("./login").post);
 
-    /* Dashboard page */
-    app.get('/dashboard', checkAccess, require('./dashboard').get);
+  // /* Sign Up page */
+  // router.get("/signup", require("./signup").get);
+  // router.post("/signup", require("./signup").post);
 
-    /* Tests page */
-    app.get('/tests', checkAccess, require('./tests').get);
+  // /* Log Out */
+  // router.get("/logout", require("./logout").post);
+
+  // /* Dashboard page */
+  // router.get("/dashboard", checkAccess, require("./dashboard").get);
+
+  // /* Tests page */
+  // router.get("/tests", checkAccess, require("./tests").get);
+
+  app.use(router.routes());
 };
 
 /* check Auth via cookie */
