@@ -1,5 +1,5 @@
 var user = require("./user");
-require('./_config')();
+require("./_config")();
 
-//API
+// API
 exports.user = user;

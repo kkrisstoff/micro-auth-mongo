@@ -7,12 +7,30 @@ const user = User.User;
 
 const getAllUsers = async () => user.find({});
 
-const createUser = async ctx => {
-  const newUserName = ctx.request.body.username;
-  const newUserEmail = ctx.request.body.email;
-  const newUserPassword = ctx.request.body.password;
+const createUser = async (username, email, password) => {
+  return user.create(
+    {
+      username,
+      email,
+      password
+    }
+    // (err, data) => console.log("CB: ", err, data)
+  );
+  // .then(data => {
+  //   console.log(data);
+  // })
+  // .catch(err => {
+  //   console.log(err);
+  // });
 
-  log("USER: ", newUserName, newUserEmail, newUserPassword);
+  // const newUser = new user({
+  //   username,
+  //   email,
+  //   password
+  // });
+  // return newUser.save(function(err, data) {
+  //   console.log(err, data);
+  // });
 };
 
 export default { getAllUsers, createUser };
