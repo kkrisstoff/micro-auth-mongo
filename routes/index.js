@@ -3,10 +3,10 @@ import koaBody from "koa-json-body";
 import getAllUsersController from "../controllers/getAllUsers";
 import createNewUserController from "../controllers/createNewUser";
 
-var checkAccess = require("../middleware/checkAccess");
+// var checkAccess = require("../middleware/checkAccess");
 const router = Router();
 
-module.exports = app => {
+export default function(app) {
   app.use(koaBody({ fallback: true }));
 
   // Get all users
@@ -38,7 +38,7 @@ module.exports = app => {
   // router.get("/tests", checkAccess, require("./tests").get);
 
   app.use(router.routes());
-};
+}
 
 /* check Auth via cookie */
 //function checkAccess (req, res, next) {

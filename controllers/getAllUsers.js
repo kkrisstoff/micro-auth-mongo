@@ -5,11 +5,11 @@ const logger = getLogger(module);
 const log = logger.debug;
 const getAllUsers = usersService.getAllUsers;
 
-async function getUsers() {
+async function getUsers(ctx) {
   const allUsers = await getAllUsers();
 
   log("getUsers", allUsers);
-  this.body = allUsers;
+  ctx.body = allUsers;
 }
 
 export default getUsers;

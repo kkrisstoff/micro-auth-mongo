@@ -1,13 +1,18 @@
-import User from "../models/user";
+import schema from "../models";
 import getLogger from "../lib/log";
 
 const logger = getLogger(module);
 const log = logger.debug;
-const user = User.User;
 
-const getAllUsers = async () => user.find({});
+const getAllUsers = async () => {
+  const user = schema.getSchemaMap().user;
+
+  return user.find({});
+};
 
 const createUser = async (username, email, password) => {
+  const user = schema.getSchemaMap().user;
+
   return user.create(
     {
       username,

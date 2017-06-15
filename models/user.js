@@ -1,8 +1,11 @@
 // import crypto from "crypto";
-import mongoose from "../lib/mongoose";
+import mongoose from "mongoose";
+import db from "../lib/mongoose";
+import getLogger from "../lib/log";
 
+const logger = getLogger(module);
+const log = logger.debug;
 const Schema = mongoose.Schema;
-
 const schema = new Schema({
   username: {
     type: String,
@@ -57,4 +60,11 @@ const schema = new Schema({
 //   };
 // };
 
-exports.User = mongoose.model("User", schema);
+const createUserSchema = () => {
+  const mDb = db.getDb();
+
+  log("User Schema");
+  return mDb.model("User", schema)
+};
+
+export default createUserSchema;

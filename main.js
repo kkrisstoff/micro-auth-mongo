@@ -1,20 +1,26 @@
 import Koa from "koa";
+import db from "./lib/mongoose";
+import schema from "./models";
 import config from "./config";
-import getLogger from "./lib/log";
 import setRoutes from "./routes";
-import error from "./error";
+import getLogger from "./lib/log";
 
 const logger = getLogger(module);
 const log = logger.debug;
 const lerr = logger.error;
-const HttpError = error.HttpError;
-
-// DB connection
-import mongoose from "./lib/mongoose";
-
+// const HttpError = error.HttpError;
 const app = new Koa();
 
-//Cookie
+// DB connection
+db.initDb();
+
+// Set schema
+schema.setSchema();
+
+// Routes
+setRoutes(app);
+
+// Cookie
 // var session = require('express-session');
 // var MongoStore = require("connect-mongo")(session);
 // app.use(cookieParser());
@@ -34,12 +40,9 @@ const app = new Koa();
 // app.use(require("middleware/resExtensions"));
 // app.use(require("middleware/resLocals"));
 
-// Routes
-setRoutes(app);
-
-//Error Handler
-app.use(function(err, req, res, next) {
-  lerr("#server error: " + err.status + " " + err.message);
+// Error Handler
+app.use((err, req, res, next) => {
+  lerr(`#server error: ${err.status} ${err.message}`);
 
   // if (typeof err == "number") {
   //   err = new HttpError(err);

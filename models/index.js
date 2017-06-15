@@ -1,5 +1,15 @@
-var user = require("./user");
-require("./_config")();
+import createUserSchema from "./user";
+
+const schemaMap = {};
+
+const setSchema = () => {
+  schemaMap.user = createUserSchema();
+};
+
+const getSchemaMap = () => schemaMap;
 
 // API
-exports.user = user;
+module.exports = {
+  setSchema,
+  getSchemaMap
+};
