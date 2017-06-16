@@ -5,94 +5,105 @@
 </head>
 <body>
 <div class="container">
-
-    <form id="signUp" name="signup" class="signup-form" method="POST" action="/signup">
-        <div class="row">
-            <h3>New User Registration</h3>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form id="signUp" name="signup" class="signup-form">
+                <h3>New User Registration</h3>
+                <div class="form-group">
+                    <label class="form-control-label" for="name">Name</label>
+                    <input id="name" class="form-control" type="text" name="username" placeholder="Your Name"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="name">Email</label>
+                    <input id="email" class="form-control" type="text" name="email" placeholder="Your Email"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="pass">Password</label>
+                    <input id="pass" class="form-control" type="password" name="password" placeholder="User Password"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="pass">Repeat Password</label>
+                    <input id="rePass" class="form-control" type="password" name="re-password" placeholder="Repeat Password"/>
+                </div>
+                <div class="form-group">
+                    <div class="error" style="display: none">
+                        <span class="error-msg"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="Sign Up"/>
+                </div>
+            </form>
         </div>
-        <div class="row">
-            <div class="col-6">
-                <p><label for="name">Name</label></p>
-                <input id="name" type="text" name="username" placeholder="Your Name"/>
-            </div>
-            <div class="col-6">
-                <p><label for="name">Email</label></p>
-                <input id="email" type="text" name="email" placeholder="Your Email"/>
-            </div>
-            <div class="col-6">
-                <p><label for="pass">Password</label></p>
-                <input id="pass" type="password" name="password" placeholder="Admin Password"/>
-            </div>
-            <div class="col-6">
-                <p><label for="pass">Repeat Password</label></p>
-                <input id="rePass" type="password" name="re-password" placeholder="RepeatPassword"/>
-            </div>
-        </div>
-        <div class="row">
-            <div class="error" style="display: none">
-                <span class="error-msg"></span>
-            </div>
-        </div>
-        <div class="row">
-            <input type="submit" value="Sign Up"/>
-        </div>
-    </form>
-
+    </div>
 </div>
 <script>
     (function () {
+      var REDIRECT_URL = "/dashboard";
 
-        $(document.forms['signup']).on('submit', function() {
-            var form = $(this);
-            showError(null);
-//            if(!isFormValid(form)){
-//                showError("Invalid Form Data");
-//                return false;
-//            }
-            //$(":submit", form).button("loading");
-            $.ajax({
-                url: "/signup",
-                data: form.serialize(),
-                method: "POST",
-                complete: function() {
-                    //$(":submit", form).button("reset");
-                    console.log("#complete");
-                },
-                statusCode: {
-                    200: function() {
-                        window.location.href = "/dashboard";
-                    },
-                    403: function(jqXHR) {
-                        console.log(jqXHR);
-                        var error = jqXHR.responseText;
-                        showError(error);
-                    }
-                }
-            });
-            return false;
-        });
+      var form = document.getElementById("signUp");
 
-        function showError(msg) {
-            var errorHolder = $('.error');
-            if (!msg){
-                errorHolder.hide();
-            } else {
-                errorHolder.show();
-                errorHolder.find(".error-msg").text(msg || "");
-            }
+      function onsubmit(e) {
+        e.preventDefault();
+        console.log(this.username.value);
+
+        var data = {
+          username: this.username.value,
+          email: this.email.value,
+          password: this.password.value
         }
 
-        function isFormValid(form) {
-            var inputs = form.find("input"),
-                    i, l = inputs.length;
-            for (i = 0; i < l; i++){
-                if (!inputs[i].value.length) return false;
-            }
-            return true;
+        sendData(data);
+        return false;
+      }
+
+      form.addEventListener("submit", onsubmit);
+
+      function sendData(data) {
+        var host = "http://localhost:3000";
+        var uri = "/new-user";
+        var xhr = new XMLHttpRequest();
+
+        xhr.open("POST", host + uri, true);
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log(xhr.responseText);
+            window.location.href = REDIRECT_URL;
+          } else (xhr.status === 200){
+            console.log(xhr);
+              var error = xhr.statusText;
+
+              showError(error);
+          }
+        };
+
+        // Initiate a multipart/form-data upload
+        xhr.send(JSON.stringify(data));
+      }
+
+      function isFormValid(form) {
+        var inputs = form.find("input"),
+          i, l = inputs.length;
+
+        for (i = 0; i < l; i++) {
+          if (!inputs[i].value.length) return false;
         }
+
+        return true;
+      }
+
+      function showError(msg) {
+        var errorHolder = $('.error');
+
+        if (!msg) {
+          errorHolder.hide();
+        } else {
+          errorHolder.show();
+          errorHolder.find(".error-msg").text(msg || "");
+        }
+      }
+
     })();
-
-
 </script>
 </body>
 </html>

@@ -3,6 +3,7 @@ import getLogger from "../lib/log";
 
 const logger = getLogger(module);
 const log = logger.debug;
+const logErr = logger.error;
 
 const getAllUsers = async () => {
   const user = schema.getSchemaMap().user;
@@ -18,24 +19,15 @@ const createUser = async (username, email, password) => {
       username,
       email,
       password
+    },
+    (err, data) => {
+      if (err) {
+        logErr(err.message);
+      } else {
+        log(data.get("username"));
+      }
     }
-    // (err, data) => console.log("CB: ", err, data)
   );
-  // .then(data => {
-  //   console.log(data);
-  // })
-  // .catch(err => {
-  //   console.log(err);
-  // });
-
-  // const newUser = new user({
-  //   username,
-  //   email,
-  //   password
-  // });
-  // return newUser.save(function(err, data) {
-  //   console.log(err, data);
-  // });
 };
 
 export default { getAllUsers, createUser };

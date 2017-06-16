@@ -2,7 +2,9 @@ import Router from "koa-router";
 import koaBody from "koa-json-body";
 import getAllUsersController from "../controllers/getAllUsers";
 import createNewUserController from "../controllers/createNewUser";
+import showPage from "../controllers/showPage";
 
+const getSignup = require("./signup").get;
 // var checkAccess = require("../middleware/checkAccess");
 const router = Router();
 
@@ -15,36 +17,38 @@ export default function(app) {
   // Create User
   router.post("/new-user", createNewUserController);
 
-  // /* Home page */
+  /* Home page */
   // router.get("/", function(req, res) {
   //   res.redirect("/home");
   // });
 
-  // /* Login page */
+  /* Login page */
   // router.get("/login", require("./login").get);
   // router.post("/login", require("./login").post);
 
-  // /* Sign Up page */
-  // router.get("/signup", require("./signup").get);
-  // router.post("/signup", require("./signup").post);
+  /* Registration page */
+  router.get("/account/create", async (...args) => {
+    await showPage("registration", {}, ...args);
+  });
+  // router.post("/account/create", require("./signup").post);
 
-  // /* Log Out */
+  /* Log Out */
   // router.get("/logout", require("./logout").post);
 
-  // /* Dashboard page */
+  /* Dashboard page */
   // router.get("/dashboard", checkAccess, require("./dashboard").get);
 
-  // /* Tests page */
+  /* Tests page */
   // router.get("/tests", checkAccess, require("./tests").get);
 
   app.use(router.routes());
 }
 
 /* check Auth via cookie */
-//function checkAccess (req, res, next) {
-//    if (!req.cookies || !req.cookies.access || req.cookies.access !== "AOK"){
-//        res.redirect('/login');
-//    } else {
-//        next();
-//    }
-//}
+// function checkAccess(req, res, next) {
+//   if (!req.cookies || !req.cookies.access || req.cookies.access !== "AOK") {
+//     res.redirect("/login");
+//   } else {
+//     next();
+//   }
+// }

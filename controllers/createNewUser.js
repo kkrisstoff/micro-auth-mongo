@@ -3,7 +3,7 @@ import usersService from "../services/usersSvc";
 
 const logger = getLogger(module);
 const log = logger.debug;
-const elog = logger.error;
+const logErr = logger.error;
 const createUser = usersService.createUser;
 
 async function createNewUser(ctx, next) {
@@ -11,6 +11,7 @@ async function createNewUser(ctx, next) {
   const newUserEmail = ctx.request.body.email;
   const newUserPassword = ctx.request.body.password;
   let newUser;
+  let parsedData;
 
   if (!newUserName || !newUserEmail || !newUserPassword) {
     return next(new Error("all data are reuired"));
@@ -18,12 +19,22 @@ async function createNewUser(ctx, next) {
 
   try {
     newUser = await createUser(newUserName, newUserEmail, newUserPassword);
+    parsedData = {
+      user: newUser.get("username"),
+      email: newUser.get("email")
+    };
   } catch (err) {
-    elog(err);
+    logErr(err.message);
+    parsedData = {
+      errorStatus: err.code,
+      errorMessage: err.message
+    };
   }
 
-  log("createNewUser", newUser);
-  ctx.body = { user: "TestUser" };
+  log("createNewUser", newUser.get("username"));
+  ctx.body = parsedData;
+
+  return parsedData;
 }
 
 export default createNewUser;

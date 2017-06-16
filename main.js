@@ -1,4 +1,5 @@
 import Koa from "koa";
+import views from "koa-views";
 import db from "./lib/mongoose";
 import schema from "./models";
 import config from "./config";
@@ -16,6 +17,14 @@ db.initDb();
 
 // Set schema
 schema.setSchema();
+
+// Must be used before any router is used
+// Use template rendering middleware
+app.use(views(__dirname + '/views', {
+  map: {
+    ejs: 'ejs'
+  }
+}));
 
 // Routes
 setRoutes(app);
@@ -41,8 +50,9 @@ setRoutes(app);
 // app.use(require("middleware/resLocals"));
 
 // Error Handler
-app.use((err, req, res, next) => {
+app.on('error', (err, ctx)  => {
   lerr(`#server error: ${err.status} ${err.message}`);
+  // lerr(ctx);
 
   // if (typeof err == "number") {
   //   err = new HttpError(err);
