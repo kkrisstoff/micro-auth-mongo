@@ -1,9 +1,11 @@
-var fs = require('fs');
-var path = require('path');
+import fs from "fs";
+import path from "path";
 
-var files = fs.readdirSync(__dirname);
+const files = fs.readdirSync(__dirname);
+
 files.forEach(function(file) {
-    if (file == 'index.js') return;
-    var errorClass = require(path.join(__dirname, file));
-    module.exports[errorClass.prototype.name] = errorClass;
+  if (file === "index.js") return;
+  const errorClass = require(path.join(__dirname, file));
+
+  module.exports[errorClass.name] = errorClass.default;
 });

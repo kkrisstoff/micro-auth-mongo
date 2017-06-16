@@ -1,4 +1,5 @@
 import schema from "../models";
+import { HttpError } from "../error";
 import getLogger from "../lib/log";
 
 const logger = getLogger(module);
@@ -9,6 +10,12 @@ const getAllUsers = async () => {
   const user = schema.getSchemaMap().user;
 
   return user.find({});
+};
+
+const getUserByName = async name => {
+  const user = schema.getSchemaMap().user;
+
+  return user.findOne({ username: name });
 };
 
 const createUser = async (username, email, password) => {
@@ -30,4 +37,25 @@ const createUser = async (username, email, password) => {
   );
 };
 
-export default { getAllUsers, createUser };
+const checkPassword = async (username, password) => {
+  const userQuery = await getUserByName(username);
+
+
+  if (!userQuery) {
+    return new HttpError(403, "User isn't exist");
+  }
+
+  log(password, userQuery.get("password"));
+  if (password !== userQuery.get("password")) {
+    return new HttpError(403, "Invalid Password");
+  }
+
+  return userQuery.get("username");
+};
+
+export default {
+  getAllUsers,
+  getUserByName,
+  checkPassword,
+  createUser
+};

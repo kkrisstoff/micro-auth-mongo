@@ -5,91 +5,108 @@
 </head>
 <body>
 <div class="container">
-
-    <form id="logIn" name="login" class="login-form" method="POST" action="/login">
-        <div class="row">
-            <h3>Log In For Use Admin Dashboard</h3>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form id="logIn" name="login" class="login-form">
+                <h3>Log In For Use Admin Dashboard</h3>
+                <div class="form-group">
+                    <label class="form-control-label" for="name">Name</label>
+                    <input id="name" class="form-control" type="text" name="username" placeholder="Your Name"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="pass">Password</label>
+                    <input id="pass" class="form-control" type="password" name="password" placeholder="Admin Password"/>
+                </div>
+                <div class="form-group">
+                    <div class="error" style="display: none">
+                        <span class="error-msg"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="submit" class="btn btn-primary" value="Log In"/>
+                        </div>
+                        <div class="col-md-6">
+                            <a class="btn btn-primary" href="/account/create">New User</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="row">
-            <div class="col-6">
-                <p><label for="name">Name</label></p>
-                <input id="name" type="text" name="username" placeholder="Your Name"/>
-            </div>
-            <div class="col-6">
-                <p><label for="pass">Password</label></p>
-                <input id="pass" type="password" name="password" placeholder="Admin Password"/>
-            </div>
-        </div>
-        <div class="row">
-            <div class="error" style="display: none">
-                <span class="error-msg"></span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <input type="submit" value="Log In"/>
-            </div>
-            <div class="col-6">
-                <div class="button"><a href="/signup">New User</a></div>
-            </div>
-        </div>
-
-    </form>
-
+    </div>
 </div>
 <script>
-    (function () {
+  (function () {
+    var REDIRECT_URL = "/dashboard";
 
-        $(document.forms['login']).on('submit', function() {
-            var form = $(this);
-            showError(null);
-            if(!isFormValid(form)){
-                showError("Invalid Form Data");
-                return false;
-            }
-            //$(":submit", form).button("loading");
+    var form = document.getElementById("logIn");
 
-            $.ajax({
-                url: "/login",
-                data: form.serialize(),
-                method: "POST",
-                complete: function() {
-                    //$(":submit", form).button("reset");
-                },
-                statusCode: {
-                    200: function() {
-                        window.location.href = "/dashboard";
-                    },
-                    403: function(jqXHR) {
-                        console.log(jqXHR);
-                        var error = jqXHR.responseText;
-                        showError(error);
-                    }
-                }
-            });
-            return false;
-        });
+    function onsubmit(e) {
+      e.preventDefault();
+//      showError(null);
+//      if(!isFormValid(form)){
+//        showError("Invalid Form Data");
+//        return false;
+//      }
+      console.log(this.username.value);
 
-        function showError(msg) {
-            var errorHolder = $('.error');
-            if (!msg){
-                errorHolder.hide();
-            } else {
-                errorHolder.show();
-                errorHolder.find(".error-msg").text(msg || "");
-            }
+      var data = {
+        username: this.username.value,
+        password: this.password.value
+      }
+
+      sendData(data);
+      return false;
+    }
+
+    form.addEventListener("submit", onsubmit);
+
+    function sendData(data) {
+      var host = "http://localhost:3000";
+      var uri = "/login";
+      var xhr = new XMLHttpRequest();
+
+      xhr.open("POST", host + uri, true);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          console.log(xhr.responseText);
+//          window.location.href = REDIRECT_URL;
+        } else if (xhr.status === 403) {
+          console.log(xhr);
+          var error = xhr.statusText;
+
+          showError(error);
         }
+      };
 
-        function isFormValid(form) {
-            var inputs = form.find("input"),
-                    i, l = inputs.length;
-            for (i = 0; i < l; i++){
-                if (!inputs[i].value.length) return false;
-            }
-            return true;
-        }
-    })();
+      // Initiate a multipart/form-data upload
+      xhr.send(JSON.stringify(data));
+    }
 
+    function isFormValid(form) {
+      var inputs = form.find("input"),
+        i, l = inputs.length;
+
+      for (i = 0; i < l; i++) {
+        if (!inputs[i].value.length) return false;
+      }
+
+      return true;
+    }
+
+    function showError(msg) {
+      var errorHolder = document.querySelector(".error");
+
+      if (!msg) {
+        errorHolder.hide();
+      } else {
+        errorHolder.show();
+        errorHolder.querySelector(".error-msg").text(msg || "");
+      }
+    }
+
+  })();
 
 </script>
 </body>

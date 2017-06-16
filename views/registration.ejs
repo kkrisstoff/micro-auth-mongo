@@ -6,7 +6,7 @@
 <body>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <form id="signUp" name="signup" class="signup-form">
                 <h3>New User Registration</h3>
                 <div class="form-group">
@@ -68,8 +68,8 @@
         xhr.onreadystatechange = function() {
           if (xhr.readyState === 4 && xhr.status === 200) {
             console.log(xhr.responseText);
-            window.location.href = REDIRECT_URL;
-          } else (xhr.status === 200){
+//            window.location.href = REDIRECT_URL;
+          } else if (xhr.status === 403) {
             console.log(xhr);
               var error = xhr.statusText;
 
@@ -93,13 +93,13 @@
       }
 
       function showError(msg) {
-        var errorHolder = $('.error');
+        var errorHolder = document.querySelector(".error");
 
         if (!msg) {
           errorHolder.hide();
         } else {
           errorHolder.show();
-          errorHolder.find(".error-msg").text(msg || "");
+          errorHolder.querySelector(".error-msg").text(msg || "");
         }
       }
 

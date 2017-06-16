@@ -2,6 +2,7 @@ import Router from "koa-router";
 import koaBody from "koa-json-body";
 import getAllUsersController from "../controllers/getAllUsers";
 import createNewUserController from "../controllers/createNewUser";
+import loginController from "../controllers/login";
 import showPage from "../controllers/showPage";
 
 const getSignup = require("./signup").get;
@@ -23,12 +24,14 @@ export default function(app) {
   // });
 
   /* Login page */
-  // router.get("/login", require("./login").get);
-  // router.post("/login", require("./login").post);
+  router.get("/account/login", async (...args) => {
+    await showPage("login", {title: "Log In"}, ...args);
+  });
+  router.post("/login", loginController);
 
   /* Registration page */
   router.get("/account/create", async (...args) => {
-    await showPage("registration", {}, ...args);
+    await showPage("registration", {title: "Registration"}, ...args);
   });
   // router.post("/account/create", require("./signup").post);
 
