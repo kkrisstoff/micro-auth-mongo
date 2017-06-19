@@ -1,4 +1,4 @@
-// import crypto from "crypto";
+import crypto from "crypto";
 import mongoose from "mongoose";
 import db from "../lib/mongoose";
 import getLogger from "../lib/log";
@@ -17,54 +17,66 @@ const schema = new Schema({
     unique: true,
     required: true
   },
-  password: {
+  hashedPassword: {
     type: String,
     required: true
+  },
+  salt: {
+    type: String,
+    required: true
+  },
+  created: {
+    type: Date,
+    default: Date.now
   }
-  // hashedPassword: {
-  //   type: String,
-  //   required: true
-  // },
-  // salt: {
-  //   type: String,
-  //   required: true
-  // },
-  // created: {
-  //   type: Date,
-  //   default: Date.now
-  // }
 });
 
-// schema.methods.encryptPassword = function(password) {
-//   return crypto.createHmac("sha256", this.salt).update(password).digest("hex");
-// };
-// schema
-//   .virtual("password")
-//   .set(function(password) {
-//     this._plainPassword = password;
-//     this.salt = Math.random() + "";
-//     this.hashedPassword = this.encryptPassword(password);
-//   })
-//   .get(function() {
-//     return this._plainPassword;
-//   });
+const saltStrLength = 12;  // just length of the string
 
-// schema.methods.checkPassword = password =>
-//   this.encryptPassword(password) === this.hashedPassword;
+/**
+ * generates string of characters --> salt
+ *
+ * @function
+ * @param {number} length - length of the string.
+ */
+const getRandomString = length =>
+  crypto
+    .randomBytes(Math.ceil(length / 2))
+    .toString("hex") // convert to hexadecimal format
+    .slice(0, length);
 
-// schema.methods.getPublicFields = () => {
-//   return {
-//     username: this.username,
-//     created: this.created,
-//     id: this.id
-//   };
-// };
+const encryptPassword = (password, salt) =>
+  crypto
+    .createHmac("sha256", salt) // hashing algorithm
+    .update(password)
+    .digest("hex");
+
+schema
+  .virtual("password")
+  .set(function(password) {
+    // this._plainPassword = password;
+    this.salt = getRandomString(saltStrLength);
+    this.hashedPassword = encryptPassword(password, this.salt);
+  });
+  // .get(() => this._plainPassword);
+
+schema.methods.checkPassword = function(password) {
+  return encryptPassword(password, this.salt) === this.hashedPassword;
+};
+
+schema.methods.getPublicFields = function() {
+  return {
+    username: this.username,
+    created: this.created,
+    id: this.id
+  };
+};
 
 const createUserSchema = () => {
   const mDb = db.getDb();
 
   log("User Schema");
-  return mDb.model("User", schema)
+  return mDb.model("User", schema);
 };
 
 export default createUserSchema;

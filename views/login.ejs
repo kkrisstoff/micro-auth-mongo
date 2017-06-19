@@ -38,8 +38,6 @@
 </div>
 <script>
   (function () {
-    var REDIRECT_URL = "/dashboard";
-
     var form = document.getElementById("logIn");
 
     function onsubmit(e) {
@@ -70,8 +68,10 @@
       xhr.open("POST", host + uri, true);
       xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
+          var respData = JSON.parse(xhr.responseText)
+
           console.log(xhr.responseText);
-//          window.location.href = REDIRECT_URL;
+          window.location.href = respData.redirect;
         } else if (xhr.status === 403) {
           console.log(xhr);
           var error = xhr.statusText;

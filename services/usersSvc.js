@@ -40,17 +40,15 @@ const createUser = async (username, email, password) => {
 const checkPassword = async (username, password) => {
   const userQuery = await getUserByName(username);
 
-
   if (!userQuery) {
     return new HttpError(403, "User isn't exist");
   }
 
-  log(password, userQuery.get("password"));
-  if (password !== userQuery.get("password")) {
+  if (!userQuery.checkPassword(password)) {
     return new HttpError(403, "Invalid Password");
   }
 
-  return userQuery.get("username");
+  return userQuery.getPublicFields();
 };
 
 export default {

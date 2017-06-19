@@ -5,7 +5,6 @@ import createNewUserController from "../controllers/createNewUser";
 import loginController from "../controllers/login";
 import showPage from "../controllers/showPage";
 
-const getSignup = require("./signup").get;
 // var checkAccess = require("../middleware/checkAccess");
 const router = Router();
 
@@ -39,10 +38,9 @@ export default function(app) {
   // router.get("/logout", require("./logout").post);
 
   /* Dashboard page */
-  // router.get("/dashboard", checkAccess, require("./dashboard").get);
-
-  /* Tests page */
-  // router.get("/tests", checkAccess, require("./tests").get);
+  router.get("/dashboard", /* checkAccess, */async (...args) => {
+    await showPage("dashboard", {title: "Dashboard"}, ...args);
+  });
 
   app.use(router.routes());
 }
