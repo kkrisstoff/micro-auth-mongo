@@ -71,7 +71,7 @@ app.on('error', (err, ctx)  => {
   // }
 });
 
-const port = config.port;
-app.listen(port, () => {
-  log("Server listening on port %d in %s mode", port);
+const PORT = process.env.PORT || config.port
+app.listen(PORT, () => {
+  log("Server listening on port %d in %s mode", PORT, );
 });
