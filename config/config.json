@@ -1,5 +1,5 @@
 {
-    "port": 3000,
+    "port": 3030,
     "uri": "",
     "redirectUrl": "/dashboard",
     "host": "",

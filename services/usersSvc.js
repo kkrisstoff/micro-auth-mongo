@@ -20,7 +20,7 @@ const getUserByName = async name => {
 
 const createUser = async (username, email, password) => {
   const user = schema.getSchemaMap().user;
-
+  
   return user.create(
     {
       username,
