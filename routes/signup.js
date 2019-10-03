@@ -43,8 +43,6 @@ function dropDatabase(callback) {
 
 function requireModels(callback) {
   require("./models/user");
-  console.log("#mongoose models");
-  console.log(mongoose.models);
 
   async.each(
     Object.keys(mongoose.models),
