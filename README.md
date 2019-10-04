@@ -1,13 +1,15 @@
+## Start App
+// .env
 
-FOR START APP
-DEV: npm run dev
-PROD: npm run start
+#### FOR START APP
+* DEV: npm run dev
+* PROD: npm run start
 
-MongoDB
+## MongoDB
 host: mlab.com:45009
 db: auth
 
-Endpoints:
+## Endpoints:
 BASE_HOST = http://localhost:3030
 
 * get all users
@@ -20,4 +22,5 @@ POST BASE_HOST/new-user
     "username": string,
     "email": string,
     "password": string
-}```
+}
+```

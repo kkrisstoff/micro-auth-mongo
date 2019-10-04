@@ -20,7 +20,7 @@ schema.setSchema();
 
 // Must be used before any router is used
 // Use template rendering middleware
-app.use(views(__dirname + '/views', {
+app.use(views(`${__dirname  }/views`, {
   map: {
     ejs: 'ejs'
   }
@@ -71,7 +71,8 @@ app.on('error', (err, ctx)  => {
   // }
 });
 
-const PORT = process.env.PORT || config.port
+const PORT = process.env.PORT || config.port;
 app.listen(PORT, () => {
-  log("Server listening on port %d in %s mode", PORT, );
+  log("Server listening on port %d in %s mode", PORT, process.env.NODE_ENV);
+  log(PORT);
 });
