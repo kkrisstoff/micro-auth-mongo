@@ -4,7 +4,7 @@
   "description": "Node + MongoDB Authorization",
   "main": "src/main.js",
   "scripts": {
-    "start": "npm run build && babel-node dist/main.js",
+    "start": "babel-node dist/start.js",
     "prestart": "yarn install",
     "test": "echo \"Error: no test specified\" && exit 1",
     "babel-node": "babel-node",
