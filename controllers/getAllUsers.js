@@ -1,5 +1,5 @@
 import getLogger from "../lib/log";
-import usersService from "../services/usersSvc";
+import usersService from "../src/services/usersSvc";
 
 const logger = getLogger(module);
 const log = logger.debug;

@@ -2,12 +2,14 @@
   "name": "micro-auth",
   "version": "0.0.1",
   "description": "Node + MongoDB Authorization",
-  "main": "./main.js",
+  "main": "src/main.js",
   "scripts": {
-    "start": "NODE_ENV=production node main",
-    "dev": "NODE_ENV=development node dev",
+    "start": "npm run build && babel-node dist/main.js",
     "prestart": "yarn install",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "babel-node": "babel-node",
+    "build": "NODE_ENV=evelopment babel src --out-dir dist --source-maps inline",
+    "prepublish": "npm run build"
   },
   "license": "MIT",
   "dependencies": {
@@ -22,11 +24,11 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-latest": "^6.24.1",
-    "babel-register": "^6.26.0",
+    "@babel/cli": "^7.6.2",
+    "@babel/core": "^7.6.2",
+    "@babel/node": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "@babel/register": "^7.6.2",
     "eslint": "^6.5.1",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.3.0",
@@ -41,17 +43,5 @@
     "env": {
       "node": true
     }
-  },
-  "babel": {
-    "presets": [
-      [
-        "env",
-        {
-          "targets": {
-            "node": "current"
-          }
-        }
-      ]
-    ]
   }
 }

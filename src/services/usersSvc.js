@@ -1,6 +1,6 @@
-import schema from "../models";
-import { HttpError } from "../error";
-import getLogger from "../lib/log";
+import schema from "../../models";
+import { HttpError } from "../../error";
+import getLogger from "../../lib/log";
 
 const logger = getLogger(module);
 const log = logger.debug;

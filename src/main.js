@@ -1,10 +1,10 @@
 import Koa from "koa";
 import views from "koa-views";
-import db from "./lib/mongoose";
-import schema from "./models";
-import config from "./config";
+import db from "../lib/mongoose";
+import schema from "../models";
+import config from "../config";
 import setRoutes from "./routes";
-import getLogger from "./lib/log";
+import getLogger from "../lib/log";
 
 const logger = getLogger(module);
 const log = logger.debug;

@@ -1,9 +1,9 @@
 import Router from "koa-router";
 import koaBody from "koa-json-body";
-import getAllUsersController from "../controllers/getAllUsers";
-import createNewUserController from "../controllers/createNewUser";
-import loginController from "../controllers/login";
-import showPage from "../controllers/showPage";
+import getAllUsersController from "../../controllers/getAllUsers";
+import createNewUserController from "../../controllers/createNewUser";
+import loginController from "../../controllers/login";
+import showPage from "../../controllers/showPage";
 
 // var checkAccess = require("../middleware/checkAccess");
 const router = Router();

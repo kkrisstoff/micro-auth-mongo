@@ -1,5 +1,5 @@
 import config from "../config";
-import usersService from "../services/usersSvc";
+import usersService from "../src/services/usersSvc";
 import getLogger from "../lib/log";
 
 const logger = getLogger(module);
