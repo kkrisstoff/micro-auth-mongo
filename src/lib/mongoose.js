@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
-import config from "../config";
+import config from "config";
 import getLogger from "./log";
 
 const logger = getLogger(module);
 const log = logger.debug;
 const lerr = logger.error;
-const conf = config.db;
+const conf = config.get('db');
 
 let db = null;
 

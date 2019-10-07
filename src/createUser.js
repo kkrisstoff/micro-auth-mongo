@@ -23,7 +23,7 @@ function dropDatabase(callback) {
 }
 
 function requireModels(callback){
-    require('../models/user');
+    require('./models/user');
 
     async.each(Object.keys(mongoose.models), function (modelName, callback) {
         mongoose.models[modelName].ensureIndexes(callback);  //ensureIndex:  callback will call only if indexes created

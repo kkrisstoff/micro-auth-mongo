@@ -1,0 +1,15 @@
+{
+  "app": {
+    "port": 3030,
+    "host": "",
+    "redirectUrl": "/dashboard"
+  },
+  "db": {
+    "user": "authadmin",
+    "password": "authadmin1",
+    "path": "mongodb://ds145009.mlab.com:45009/auth"
+  },
+  "session": {
+    "secret": "Keep your secrets"
+  }
+}

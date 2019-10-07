@@ -1,5 +1,5 @@
 //var assert = require('assert');
-var User = require('models/user').User;
+var User = require('src/models/user').User;
 
 module.exports = function(req, res, next) {
     //todo: res.locals...

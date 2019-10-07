@@ -1,4 +1,4 @@
-import mongoose from "../../lib/mongoose";
+import mongoose from "../lib/mongoose";
 
 exports.post = function(req, res, next) {
   var username = req.body.username,

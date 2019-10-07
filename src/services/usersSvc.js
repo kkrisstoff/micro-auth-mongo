@@ -1,25 +1,25 @@
-import schema from "../../models";
-import { HttpError } from "../../error";
-import getLogger from "../../lib/log";
+import schema from "../models";
+import { HttpError } from "../error";
+import getLogger from "../lib/log";
 
 const logger = getLogger(module);
 const log = logger.debug;
 const logErr = logger.error;
 
 const getAllUsers = async () => {
-  const user = schema.getSchemaMap().user;
+  const { user } = schema.getSchemaMap();
 
   return user.find({});
 };
 
 const getUserByName = async name => {
-  const user = schema.getSchemaMap().user;
+  const { user } = schema.getSchemaMap();
 
   return user.findOne({ username: name });
 };
 
 const createUser = async (username, email, password) => {
-  const user = schema.getSchemaMap().user;
+  const { user } = schema.getSchemaMap();
   
   return user.create(
     {
