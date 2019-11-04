@@ -18,7 +18,7 @@
     "koa-body": "^4.1.1",
     "koa-router": "^7.4.0",
     "koa-views": "^6.2.1",
-    "mongoose": "^5.7.3",
+    "mongoose": "^5.7.5",
     "prettier": "^1.18.2",
     "winston": "^3.2.1"
   },
